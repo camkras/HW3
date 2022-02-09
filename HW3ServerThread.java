@@ -30,17 +30,15 @@ public class HW3ServerThread extends Thread {
                           
             while ((fromClient = cSocketIn.readLine()) != null) {
    String[] clientArray = fromClient.split(",");
-               /* is this needed before the interpret, particulary 200 OK?
-                  need to update 404 to check for error
+               
                 if(!clientArray[0].equals("GET")){
-                toClient = ("400 Bad Request");
-                break;
+                requestCode = ("400 Bad Request");
                 }
-                if(){
-                toClient = ("404 Not Found");
-                break;
+                if(!clientArray[1].exists()){
+                requestCode = ("404 Not Found");
                 }
-                */
+               else
+                  requestCode = ("200 OK");
 
                 for (int i = 0; i < clientArray.length; i++) {
               System.out.print(clientArray[i] + ", ");

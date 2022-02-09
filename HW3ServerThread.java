@@ -1,4 +1,11 @@
-//copied these from the example programs, now need to be changed to fit the assignment
+/*
+   Server TCP app for HW3 in cs3700
+   A thread is started to handle every client TCP connection to this server
+   Written by Cameron Krasovich and
+   Based on TCP Server App written and provided by
+   Weiying Zhu
+*/
+
 import java.net.*;
 import java.io.*;
 
@@ -6,7 +13,7 @@ public class HW3ServerThread extends Thread {
     private Socket clientTCPSocket = null;
 
     public HW3ServerThread(Socket socket) {
-        super("HW3ServerThread");
+        super("TCPMultiServerThread");
         clientTCPSocket = socket;
     }
 
@@ -22,13 +29,26 @@ public class HW3ServerThread extends Thread {
             String fromClient, toClient;
                           
             while ((fromClient = cSocketIn.readLine()) != null) {
-   
-                toClient = fromClient.toUpperCase();
-                cSocketOut.println(toClient);
-                                
-                if (fromClient.equals("Bye"))
-                    break;
-           }
+   String[] clientArray = fromClient.split(",");
+               /* is this needed before the interpret, particulary 200 OK?
+                  need to update 404 to check for error
+                if(!clientArray[0].equals("GET")){
+                toClient = ("400 Bad Request");
+                break;
+                }
+                if(){
+                toClient = ("404 Not Found");
+                break;
+                }
+                */
+
+                for (int i = 0; i < clientArray.length; i++) {
+              System.out.print(clientArray[i] + ", ");
+  }
+                //send to client                
+                //need break/exit
+                          }
+
                         
            cSocketOut.close();
            cSocketIn.close();

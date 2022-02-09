@@ -31,6 +31,7 @@ public class HW3ServerThread extends Thread {
             while ((fromClient = cSocketIn.readLine()) != null) {
    String[] clientArray = fromClient.split(",");
                
+               //this sets status code for request
                 if(!clientArray[0].equals("GET")){
                 requestCode = ("400 Bad Request");
                 }
@@ -39,9 +40,15 @@ public class HW3ServerThread extends Thread {
                 }
                else
                   requestCode = ("200 OK");
-
+               /*
+               Here is where we will generate response
+               need 3line header and extra line then send requested file and add 4 blank lines at the end
+               or 3 line header with error code and extra line
+               
                 for (int i = 0; i < clientArray.length; i++) {
               System.out.print(clientArray[i] + ", ");
+              
+              */
   }
                 //send to client                
                 //need break/exit

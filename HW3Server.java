@@ -1,4 +1,9 @@
-//copied these from the example programs, now need to be changed to fit the assignment
+/*
+   Server app for HW3 in cs3700
+   Written by Cameron Krasovich and Noah Pearson Kramer
+   Based on TCP Server App written and provided by
+   Weiying Zhu
+*/
 
 import java.io.IOException;
 import java.net.*;
@@ -24,3 +29,4 @@ public class HW3Server {
 
 
 }
+

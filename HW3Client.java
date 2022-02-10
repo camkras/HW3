@@ -1,6 +1,6 @@
 /*
    Client app for HW3 in cs3700
-   Written by Cameron Krasovich and
+   Written by Cameron Krasovich and Noah Pearson Kramer
    Based on TCP Client App written and provided by
    Weiying Zhu
 */

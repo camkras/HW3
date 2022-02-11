@@ -53,13 +53,13 @@ public class HW3ServerThread extends Thread {
                             /*          Response Header:
                                 HTTP/1.2 200 OK
                                 Date:    .... java date or calendar class
-                                Server:  .... how do we get the server name? should be able to change based on server
-                                \n
+                                Server:  .... how do we get the server name? should be able to change based on server?
+                                *blank line*
                             */
                             
-                            String response = "     Response Header \r\n" + line[2] +"\r\n"+"200 Okay \r\n"+"Date:"+date.toString()+"\r\n"+"Server:"; //needs to get server name
+                            String response = "     Response Header \r\n" + line[2] +"\r\n"+"200 Okay \r\n"+"Date:"+date.toString()+"\r\n"+"Server:"; // still needs to get server name
+                            cSocketOut.println(response);
                             
-        
         
         
                             }

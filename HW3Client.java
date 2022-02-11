@@ -35,9 +35,12 @@ public class HW3Client {
                     
       try {
          tcpSocket = new Socket(hostAddr, 5180);   // 5180 I my assigned port for server
+         long start_time = System.currentTimeMillis();
          socketOut = new PrintWriter(tcpSocket.getOutputStream(), true);
          socketIn = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
-         //Need to add RTT time of connection around creating socket object
+         long end_time = System.currentTimeMillis();
+         long difference = end_time-start_time;
+         System.out.println("RTT of Socket creation = " + difference + "ms"); //RTT time of connection around creating socket object
 
       } catch (UnknownHostException e) {
          System.err.println("Don't know about host: " + hostAddr);
@@ -72,14 +75,17 @@ public class HW3Client {
           //    System.out.print(HTTPRequest[i] + ", ");
 
          //send request header
-          socketOut.println(HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]+" \r\n"+"Host: "+hostAddr+"/r/n"+"User-Agent:"+HTTPRequest[3]+"/r/n") ;
+          socketOut.println(HTTPRequest[0]+"\r\n"+ HTTPRequest[1]+"\r\n"+HTTPRequest[2]+"\r\n"+hostAddr+"/r/n"+HTTPRequest[3]+"/r/n") ;
   
          
+         while ((HTTPResponse = socketIn.readLine()) != null) {
+         //print header sepratting lines by \r\n
+         //read end of header as as empty line
+         //save htm file
+         //end read with 4 empty lines (set null after)
+         }
          
          /*
-
-
-         // TODO : READ .HTM FIlE, SAVE TO NEW FILE
                              
          if ((fromServer = socketIn.readLine()) != null)
          {
@@ -101,7 +107,6 @@ public class HW3Client {
             cont = false;
          }
       }
-   
+      }
    }
-}
-
+   

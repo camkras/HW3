@@ -23,8 +23,7 @@ public class HW3ServerThread extends Thread {
         Date date = new Date();
 
         try {
-            PrintWriter cSocketOut = new PrintWriter(
-                clientTCPSocket.getOutputStream(), true);
+            PrintWriter cSocketOut = new PrintWriter(clientTCPSocket.getOutputStream(), true);
             BufferedReader cSocketIn = new BufferedReader(new InputStreamReader(clientTCPSocket.getInputStream()));
             String HTTPRequest;
             //read request from client             
@@ -35,18 +34,12 @@ public class HW3ServerThread extends Thread {
                 if (line[0].equals("GET"))
                     {
                         try{
-                            String path ="/HW03/Resources/"+ line[1];  // 'Resources' could be a separate folder or just store everything in HW03   
-                            BufferedReader br = new BufferedReader(new FileReader(path));
-                            //Construct Response Message
-                            // Format: 
-                            /*          Response Header:
-                                HTTP/1.2 200 OK
-                                Date:    .... java date or calendar class
-                                Server:  .... how do we get the server name? should be able to change based on server?
-                                *blank line*
-                            */
-                            InetAddress ip;
-                            String hostName = null;
+                                String path ="/HW03/Resources/"+ line[1];  // 'Resources' could be a separate folder or just store everything in HW03   
+                                BufferedReader br = new BufferedReader(new FileReader(path));
+                                InetAddress ip;
+                            
+                                // Get hostName for response header
+                                String hostName = null;
 
                                 try {
                                     ip = InetAddress.getLocalHost();
@@ -54,19 +47,31 @@ public class HW3ServerThread extends Thread {
                                 } catch (UnknownHostException e) {
                                     e.printStackTrace();
                                 }
-                            String responseHeader = "     Response Header \r\n" + line[2] + "200 Okay \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n"; // still needs to get server name
-                            cSocketOut.println(responseHeader);
-                            // Send .htm file
-                            while(br.readLine()!= null)
-                            {
-                                cSocketOut.write(br.readLine());
-                            }
-                            }
+                            
+                                //Construct Response Message
+                                // Format: 
+                                /*          Response Header:
+                                HTTP/1.2 200 OK
+                                Date:    .... java date or calendar class
+                                Server:  .... how do we get the server name? should be able to change based on server?
+                                *blank line*
+                                */
+
+                                String responseHeader = "     Response Header \r\n" + line[2] + "200 Okay \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n"; 
+                                cSocketOut.println(responseHeader);
+                                
+                        
+                                // Send .htm file
+                                while(br.readLine()!= null)
+                                {
+                                    cSocketOut.write(br.readLine());
+                                }
+                             }
                         catch (IOException e)
                             {
                                 System.err.println(e);
                                 System.out.println("404 Not Found "); // output to client.
-                            }  
+                             }  
                     }
                 else
                     {
@@ -115,9 +120,10 @@ public class HW3ServerThread extends Thread {
            cSocketOut.close();
            cSocketIn.close();
            clientTCPSocket.close();
-
-       } catch (IOException e) {
+        }
+        }
+        catch (IOException e) {
            e.printStackTrace();
        }
+    } 
     }
-}

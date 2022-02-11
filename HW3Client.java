@@ -77,6 +77,9 @@ public class HW3Client {
          
          
          /*
+
+
+         // TODO : READ .HTM FIlE, SAVE TO NEW FILE
                              
          if ((fromServer = socketIn.readLine()) != null)
          {

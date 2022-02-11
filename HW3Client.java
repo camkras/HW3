@@ -1,6 +1,6 @@
 /*
    Client app for HW3 in cs3700
-   Written by Cameron Krasovich and
+   Written by Cameron Krasovich and Noah Pearson Kramer
    Based on TCP Client App written and provided by
    Weiying Zhu
 */
@@ -28,12 +28,11 @@ public class HW3Client {
       Scanner scan = new Scanner(System.in);
       String hostAddr = scan.nextLine();
    
-   /*
+   
       Socket tcpSocket = null;
       PrintWriter socketOut = null;
       BufferedReader socketIn = null;
-   
-                        
+                    
       try {
          tcpSocket = new Socket(hostAddr, 5180);   // 5180 I my assigned port for server
          socketOut = new PrintWriter(tcpSocket.getOutputStream(), true);
@@ -47,9 +46,9 @@ public class HW3Client {
          System.err.println("Couldn't get I/O for the connection to: " + hostAddr);
          System.exit(1);
       }        
-      */         
-   
-      while (hostAddr != null) {
+             
+      boolean cont = true;
+      while (cont) {
       
          System.out.println("Please input the HTTP method type: ");
          HTTPRequest[0] = scan.nextLine();
@@ -69,8 +68,11 @@ public class HW3Client {
          HTTPRequest[3] = scan.nextLine();
          //socketOut.println(userAgent);
         
-        for (int i = 0; i < HTTPRequest.length; i++) {
-              System.out.print(HTTPRequest[i] + ", ");
+        //for (int i = 0; i < HTTPRequest.length; i++) {
+          //    System.out.print(HTTPRequest[i] + ", ");
+
+         //send request header
+          socketOut.println(HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]+" \r\n"+"Host: "+hostAddr+"/r/n"+"User-Agent:"+HTTPRequest[3]+"/r/n") ;
   }
          
          

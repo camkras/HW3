@@ -73,7 +73,7 @@ public class HW3Client {
 
          //send request header
           socketOut.println(HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]+" \r\n"+"Host: "+hostAddr+"/r/n"+"User-Agent:"+HTTPRequest[3]+"/r/n") ;
-  }
+  
          
          
          /*
@@ -94,9 +94,11 @@ public class HW3Client {
             socketIn.close();
             sysIn.close();
             tcpSocket.close();   */
-            break;
+            //break;
+            cont = false;
          }
       }
    
    }
 }
+

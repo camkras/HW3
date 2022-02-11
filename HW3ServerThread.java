@@ -1,5 +1,4 @@
 /*
-
    Server app for HW3 in cs3700
    Written by Cameron Krasovich and Noah Pearson KrameR
    A thread is started to handle every client TCP connection to this server
@@ -29,8 +28,13 @@ public class HW3ServerThread extends Thread {
             //read request from client             
             while ((HTTPRequest = cSocketIn.readLine()) != null) {
                 //The client request can be combined into a single string, and then parsed.
-                String[] requestLines = HTTPRequest.split("\r\n"); // maybe parse by comma... can we parse by \r\n ?
+                String[] requestLines = HTTPRequest.split("\r\n"); // parse by \r\n
                 String[] line = requestLines[0].split(" "); //parse by space
+                
+                //for (int i = 0; i < line.length; i++) {
+                //System.out.print(line[i] + ", ");
+                //Uncomment above to see if request if received and parsed
+          
                 if (line[0].equals("GET"))
                     {
                         try{
@@ -47,7 +51,8 @@ public class HW3ServerThread extends Thread {
                                 } catch (UnknownHostException e) {
                                     e.printStackTrace();
                                 }
-                            
+                                
+                                
                                 //Construct Response Message
                                 // Format: 
                                 /*          Response Header:
@@ -57,7 +62,8 @@ public class HW3ServerThread extends Thread {
                                 *blank line*
                                 */
 
-                                String responseHeader = "     Response Header \r\n" + line[2] + "200 Okay \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n"; 
+                                String responseHeader = "     Response Header \r\n" + line[2] + "200 Okay \r\n"+"Date: "+
+                                date.toString()+"\r\n"+"Server: " + hostName +"\r\n"; 
                                 cSocketOut.println(responseHeader);
                                 
                         
@@ -91,7 +97,7 @@ public class HW3ServerThread extends Thread {
                         } catch (UnknownHostException f) {
                             f.printStackTrace();
                         }
-                        String responseHeader = "     Response Header \r\n" + line[2] + "404 Not Found \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
+                        String responseHeader = "     Response Header \r\n" + line[2] + "400 Bad Request \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
                         cSocketOut.println(responseHeader);
                     }
 
@@ -101,10 +107,8 @@ public class HW3ServerThread extends Thread {
 
 
        /* Cameron's Method
-
             BufferedReader cSocketIn = new BufferedReader(
             new InputStreamReader(clientTCPSocket.getInputStream()));
-
             String fromClient, toClient;
                           
             while ((fromClient = cSocketIn.readLine()) != null) {

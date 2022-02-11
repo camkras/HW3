@@ -52,8 +52,8 @@ public class HW3ServerThread extends Thread {
                                 // Format: 
                                 /*          Response Header:
                                 HTTP/1.2 200 OK
-                                Date:    .... java date or calendar class
-                                Server:  .... how do we get the server name? should be able to change based on server?
+                                Date:    .... 
+                                Server:  .... 
                                 *blank line*
                                 */
 
@@ -69,14 +69,30 @@ public class HW3ServerThread extends Thread {
                              }
                         catch (IOException e)
                             {
-                                System.err.println(e);
-                                System.out.println("404 Not Found "); // output to client.
+                                InetAddress ip;
+                                String hostName = null;
+                                try {
+                                    ip = InetAddress.getLocalHost();
+                                    hostName = ip.getHostName();
+                                } catch (UnknownHostException f) {
+                                    f.printStackTrace();
+                                }
+                                String responseHeader = "     Response Header \r\n" + line[2] + "404 Not Found \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
+                                cSocketOut.println(responseHeader);
                              }  
                     }
                 else
                     {
-                        System.out.println("400 Bad Request"); 
-                        //needs to respond to client with this
+                        InetAddress ip;
+                        String hostName = null;
+                        try {
+                            ip = InetAddress.getLocalHost();
+                            hostName = ip.getHostName();
+                        } catch (UnknownHostException f) {
+                            f.printStackTrace();
+                        }
+                        String responseHeader = "     Response Header \r\n" + line[2] + "404 Not Found \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
+                        cSocketOut.println(responseHeader);
                     }
 
                 

@@ -13,7 +13,7 @@ public class HW3Server {
         boolean listening = true;
 
         try{
-            serverTCPSocket = new ServerSocket(5180); 
+            serverTCPSocket = new ServerSocket(5240); 
         }
         catch(IOException e){
             System.err.println("Could not listen on port: 5240");

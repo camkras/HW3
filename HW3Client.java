@@ -78,13 +78,9 @@ public class HW3Client {
           //    System.out.print(HTTPRequest[i] + ", ");
 
          //send request header
-          String requestHeader = (HTTPRequest[0]+"\r\n"+ HTTPRequest[1]+"\r\n"+HTTPRequest[2]+"\r\n"+hostAddr+"\r\n"+HTTPRequest[3]+"\r\n");
-          //Why is this not concatenating?
-          System.out.println(requestHeader); 
-            
-
-
-          socketOut.println(requestHeader) ;
+          String requestHeader = (HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]+"\r\n"+"Host: "+hostAddr+"\r\n"+"User-Agent: "+HTTPRequest[3]+"\r\n");
+          System.out.print("Request Header:" + requestHeader); 
+          socketOut.print(requestHeader);
   
          
          // get response header
@@ -92,7 +88,7 @@ public class HW3Client {
 
 
 
-         while ((HTTPResponse = socketIn.readLine()) != null) {
+         //while ((HTTPResponse = socketIn.readLine()) != null) {
          //print header sepratting lines by \r\n
                   // I think the server actually handles the printing here.
          

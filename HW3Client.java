@@ -21,8 +21,7 @@ public class HW3Client {
    String fromUser = "";
    String[] HTTPRequest = new String[4];
    String HTTPResponse;
-   
-   
+
       //Step 1, capture target address/ip
       System.out.println("Please input host address or IP (ie. cs3700a.msudenver.edu) ");
       Scanner scan = new Scanner(System.in);
@@ -34,7 +33,7 @@ public class HW3Client {
       BufferedReader socketIn = null;
                     
       try {
-         tcpSocket = new Socket(hostAddr, 5180);   // 5180 I my assigned port for server
+         tcpSocket = new Socket(hostAddr, 5240);   // 5180 I my assigned port for server
          long start_time = System.currentTimeMillis();
          socketOut = new PrintWriter(tcpSocket.getOutputStream(), true);
          socketIn = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
@@ -78,10 +77,17 @@ public class HW3Client {
           //    System.out.print(HTTPRequest[i] + ", ");
 
          //send request header
-          String requestHeader = (HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]+"\r\n"+"Host: "+hostAddr+"\r\n"+"User-Agent: "+HTTPRequest[3]+"\r\n");
-          System.out.print("Request Header:" + requestHeader); 
-          socketOut.print(requestHeader);
-  
+         String[] requestHeaderLines = new String[4];
+         requestHeaderLines[0] = (HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]+"\r\n");
+         requestHeaderLines[1] = ("Host: "+hostAddr+"\r\n");
+         requestHeaderLines[2] =("User-Agent: "+HTTPRequest[3]+"\r\n");
+         requestHeaderLines[3] =("");
+          for (int i = 0; i < requestHeaderLines.length; i++)
+          {
+             socketOut.println(requestHeaderLines[i]);
+          }
+          
+          
          
          // get response header
 

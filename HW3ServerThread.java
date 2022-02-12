@@ -9,7 +9,6 @@
 import java.net.*;
 import java.io.*;
 import java.util.Date;
-import java.util.Scanner;
 
 public class HW3ServerThread extends Thread {
     private Socket clientTCPSocket = null;
@@ -25,10 +24,8 @@ public class HW3ServerThread extends Thread {
         try {
             PrintWriter cSocketOut = new PrintWriter(clientTCPSocket.getOutputStream(), true);
             BufferedReader cSocketIn = new BufferedReader(new InputStreamReader(clientTCPSocket.getInputStream()));
-            
-        
-            String HTTPRequest;
-            //read request from client            
+            String HTTPRequest; 
+
             while ((HTTPRequest = cSocketIn.readLine()) != null) {
                 System.out.println("HTTP REQUEST LINE:");
                 System.out.println(HTTPRequest);
@@ -38,6 +35,7 @@ public class HW3ServerThread extends Thread {
                 {
                     System.out.println(line[i]);
                 }
+
                 if (line[0].equals("GET"))
                     {
                         try{

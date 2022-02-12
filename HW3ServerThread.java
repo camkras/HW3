@@ -26,9 +26,10 @@ public class HW3ServerThread extends Thread {
             PrintWriter cSocketOut = new PrintWriter(clientTCPSocket.getOutputStream(), true);
             //BufferedReader cSocketIn = new BufferedReader(new InputStreamReader(clientTCPSocket.getInputStream()));
             Scanner cSocketIn = new Scanner(new InputStreamReader(clientTCPSocket.getInputStream()));
-            String HTTPRequest;
-            //read request from client             
-            while ((HTTPRequest = cSocketIn.next()) != null) {
+            String HTTPRequest = cSocketIn.next();
+            
+            //read request from client            
+            //while ((HTTPRequest = cSocketIn.next()) != null) {
                 System.out.println("HTTP REQUEST:");
                 System.out.println(HTTPRequest);
                 //The client request can be combined into a single string, and then parsed.
@@ -149,7 +150,7 @@ public class HW3ServerThread extends Thread {
            cSocketOut.close();
            cSocketIn.close();
            clientTCPSocket.close();
-        }
+       // }
         }
         catch (IOException e) {
            e.printStackTrace();

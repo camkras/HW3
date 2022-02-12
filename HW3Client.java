@@ -92,7 +92,14 @@ public class HW3Client {
           
          
          // get response header
+BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
+        String fromServer;
 
+        while ((fromServer = sysIn.readLine()) != null) {
+
+               System.out.println("Server: " + fromServer);
+               
+               }            
 
 
 
@@ -129,5 +136,3 @@ public class HW3Client {
          }
       }
       }
-   
-   

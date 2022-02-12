@@ -78,7 +78,13 @@ public class HW3Client {
           //    System.out.print(HTTPRequest[i] + ", ");
 
          //send request header
-          socketOut.println(HTTPRequest[0]+"\r\n"+ HTTPRequest[1]+"\r\n"+HTTPRequest[2]+"\r\n"+hostAddr+"\r\n"+HTTPRequest[3]+"\r\n") ;
+          String requestHeader = (HTTPRequest[0]+"\r\n"+ HTTPRequest[1]+"\r\n"+HTTPRequest[2]+"\r\n"+hostAddr+"\r\n"+HTTPRequest[3]+"\r\n");
+          //Why is this not concatenating?
+          System.out.println(requestHeader); 
+            
+
+
+          socketOut.println(requestHeader) ;
   
          
          // get response header

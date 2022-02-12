@@ -28,8 +28,6 @@ public class HW3Client {
       System.out.println("Please input host address or IP (ie. cs3700a.msudenver.edu) ");
       Scanner scan = new Scanner(System.in);
       String hostAddr = scan.nextLine();
-   
-   
       Socket tcpSocket = null;
       PrintWriter socketOut = null;
       BufferedReader socketIn = null;
@@ -56,52 +54,44 @@ public class HW3Client {
       
          System.out.println("Please input the HTTP method type: ");
          HTTPRequest[0] = scan.nextLine().trim();
-         System.out.println(HTTPRequest[0]);
+         //System.out.println(HTTPRequest[0]);
          //socketOut.println(methodType);
-         
          System.out.println("Please input the name of the htm file: ");
          HTTPRequest[1] = scan.nextLine().trim();
-         System.out.println(HTTPRequest[1]);
+         //System.out.println(HTTPRequest[1]);
          //socketOut.println(htmFile);
-         
-         
          System.out.println("Please input the HTTP version: ");
          HTTPRequest[2] = scan.nextLine().trim();
          //socketOut.println(HTTPVersion);
-         System.out.println(HTTPRequest[2]);
+         //System.out.println(HTTPRequest[2]);
          
          System.out.println("Please input the User agent: ");
          HTTPRequest[3] = scan.nextLine().trim();
-         System.out.println(HTTPRequest[3]);
+         //System.out.println(HTTPRequest[3]);
          //socketOut.println(userAgent);
-        
         //for (int i = 0; i < HTTPRequest.length; i++) {
           //    System.out.print(HTTPRequest[i] + ", ");
 
          //send request header
          String[] requestHeaderLines = new String[4];
-         requestHeaderLines[0] = (HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]+"\r\n");
-         requestHeaderLines[1] = ("Host: "+hostAddr+"\r\n");
-         requestHeaderLines[2] =("User-Agent: "+HTTPRequest[3]+"\r\n");
+         requestHeaderLines[0] = (HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]);
+         requestHeaderLines[1] = ("Host: "+hostAddr);
+         requestHeaderLines[2] =("User-Agent: "+HTTPRequest[3]);
          requestHeaderLines[3] =("");
           for (int i = 0; i < requestHeaderLines.length; i++)
           {
              socketOut.println(requestHeaderLines[i]);
-             System.out.println("Sent Line " +i);
+             System.out.println("Sent Line " +i+":" + requestHeaderLines[i]);
           }
-
-          //end while loop on server side
-          String nullResponse = null;
-          socketOut.println(nullResponse);
+          //end while loop on server side by sending null
+          //String nullResponse = null;
+          //socketOut.print(nullResponse);   
           
          // get response header
-BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
-        String fromServer;
-
-        while ((fromServer = sysIn.readLine()) != null) {
-
-               System.out.println("Server: " + fromServer);
-               
+         BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
+         String fromServer;
+         while ((fromServer = socketIn.readLine()) != null) {
+               System.out.println(fromServer);
                }            
 
 

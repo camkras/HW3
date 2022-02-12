@@ -39,10 +39,17 @@ public class HW3ServerThread extends Thread {
             ArrayList<String> lines = new ArrayList<String>(); 
             
             // Get all lines
-            while ((HTTPRequest = cSocketIn.readLine()) != null) {
+            int count = 0;
+            while (count <=4) {
+                HTTPRequest = cSocketIn.readLine();
                 lines.add(HTTPRequest);
+                System.out.println(HTTPRequest);
+                count++;
             }
+
+            //hangs here until client close???????
             System.out.println("HTTP Request Recieved...");  
+
             String requestType;
             String path;
             String version;
@@ -51,15 +58,17 @@ public class HW3ServerThread extends Thread {
 
             // Line 1: (Request type, path, version)
             String line1[] = lines.get(0).split("\\s+");
+            System.out.println("Print file line:" +lines.get(0));
             requestType = line1[0];
             path = line1[1];
             version = line1[2];
             // Line 2: (Host)
             String line2[] = lines.get(1).split("\\s+");
+            System.out.println("Print hostline:" +lines.get(1));
             host = line2[1];
             // Line 3: (User agent)
             String line3[] = lines.get(2).split("\\s+");
-            userAgent = line3[2];
+            userAgent = line3[1];
             // Line 4: (Request done)
 
 
@@ -76,7 +85,7 @@ public class HW3ServerThread extends Thread {
                     {
                         cSocketOut.println(file);
                     }
-                    
+                    br.close();
                 }
                 catch(FileNotFoundException e)
                 {
@@ -200,15 +209,17 @@ public class HW3ServerThread extends Thread {
 */
             
             
-            cSocketOut.close();
-            cSocketIn.close();
-            clientTCPSocket.close();
+        //cSocketOut.close();
+        //cSocketIn.close();
+        //clientTCPSocket.close();
         }    
                 
         
         catch (IOException e) {
            e.printStackTrace();
        }
+
+       
     }
 }
     

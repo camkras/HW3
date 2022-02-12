@@ -48,6 +48,7 @@ public class HW3ServerThread extends Thread {
             }
 
             //hangs here until client close???????
+
             System.out.println("Full HTTP Request Recieved...");  
 
             String requestType;
@@ -79,7 +80,11 @@ public class HW3ServerThread extends Thread {
                 try{
                     String fullPath ="HW03"+ path;
                     BufferedReader br = new BufferedReader(new FileReader(fullPath));
-                    responseHeader(requestType, host, version);
+                    String[] response =responseHeader(requestType, host, version);
+                    for (int i = 0; i <=4; i++)
+                    {
+                        cSocketOut.println(response[i]);
+                    }
                     String file;
                     while((file = br.readLine())!= null)
                     {
@@ -90,7 +95,11 @@ public class HW3ServerThread extends Thread {
                 catch(FileNotFoundException e)
                 {
                     System.out.println("File Not Found");
-                    responseHeader(requestType, host, version);
+                    String[] response =responseHeader(requestType, host, version);
+                    for (int i = 0; i <=4; i++)
+                    {
+                        cSocketOut.println(response[i]);
+                    }
                 }
 
 
@@ -98,7 +107,11 @@ public class HW3ServerThread extends Thread {
             }
             else // 400 bad request
             {
-            responseHeader(requestType, host, version);
+                String[] response = responseHeader(requestType, host, version);
+                for (int i = 0; i <=4; i++)
+                {
+                    cSocketOut.println(response[i]);
+                }
             }
 
 

@@ -40,15 +40,15 @@ public class HW3ServerThread extends Thread {
             
             // Get all lines
             int count = 0;
-            while (count <=4) {
+            while (count <=3) {
                 HTTPRequest = cSocketIn.readLine();
                 lines.add(HTTPRequest);
-                System.out.println(HTTPRequest);
+                System.out.println("Line Received: " +HTTPRequest);
                 count++;
             }
 
             //hangs here until client close???????
-            System.out.println("HTTP Request Recieved...");  
+            System.out.println("Full HTTP Request Recieved...");  
 
             String requestType;
             String path;

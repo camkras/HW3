@@ -19,25 +19,19 @@ public class HW3ServerThread extends Thread {
         clientTCPSocket = socket;
     }
 
-    public void responseHeader(String requestType, String host, String version)throws IOException{
-        PrintWriter cSocketOut = new PrintWriter(clientTCPSocket.getOutputStream(), true);
+    public String[] responseHeader(String requestType, String host, String version)throws IOException{
+        
         Date date = new Date(); 
         String[] response = new String[4];
         response[0] ="  Response Header \r\n";
         response[1] = version + " " +requestType+ "\r\n"; 
         response[2] = "Date: " +date.toString()+ "\r\n";
         response[3] = "Server: " + host+ "\r\n"; 
-        for(int i = 0; i < response.length; i++)
-        {
-            cSocketOut.println(response[i]);
-            System.out.println("Sent Response Header Line " + i);
-        }
-
+        return response;
     }
 
     public void run() {
         Date date = new Date();
-
         try {
             PrintWriter cSocketOut = new PrintWriter(clientTCPSocket.getOutputStream(), true);
             BufferedReader cSocketIn = new BufferedReader(new InputStreamReader(clientTCPSocket.getInputStream()));
@@ -46,11 +40,8 @@ public class HW3ServerThread extends Thread {
             
             // Get all lines
             while ((HTTPRequest = cSocketIn.readLine()) != null) {
-                
                 lines.add(HTTPRequest);
-
             }
-            
             System.out.println("HTTP Request Recieved...");  
             String requestType;
             String path;
@@ -66,11 +57,9 @@ public class HW3ServerThread extends Thread {
             // Line 2: (Host)
             String line2[] = lines.get(1).split("\\s+");
             host = line2[1];
-
             // Line 3: (User agent)
             String line3[] = lines.get(2).split("\\s+");
             userAgent = line3[2];
-
             // Line 4: (Request done)
 
 

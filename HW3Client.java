@@ -10,6 +10,8 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
+import javax.swing.text.html.CSS;
+
 //Things commented out are mostly tcp and connection, currently instead of connecting this code just takes
 //a request adress and then collects the input. it then prints the input as a string parased by commas
 //change print to send then process response
@@ -84,13 +86,14 @@ public class HW3Client {
          requestHeaderLines[3] =("");
           for (int i = 0; i < requestHeaderLines.length; i++)
           {
-
              socketOut.println(requestHeaderLines[i]);
              System.out.println("Sent Line " +i);
           }
+
+          //end while loop on server side
+          String nullResponse = null;
+          socketOut.println(nullResponse);
           
-          
-         
          // get response header
 BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
         String fromServer;

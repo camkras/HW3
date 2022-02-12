@@ -27,10 +27,17 @@ public class HW3ServerThread extends Thread {
             String HTTPRequest;
             //read request from client             
             while ((HTTPRequest = cSocketIn.readLine()) != null) {
+                System.out.println("HTTP REQUEST:");
+                System.out.println(HTTPRequest);
                 //The client request can be combined into a single string, and then parsed.
                 String[] requestLines = HTTPRequest.split("\r\n"); // parse by \r\n
                 String[] line = requestLines[0].split(" "); //parse by space
-                
+                System.out.println(" Print LINE ELEMENTS:");
+                for (int i =0;i<line.length;i++)
+                {
+                    System.out.println(line[i]);
+                }
+
                 //for (int i = 0; i < line.length; i++) {
                 //System.out.print(line[i] + ", ");
                 //Uncomment above to see if request if received and parsed
@@ -38,7 +45,7 @@ public class HW3ServerThread extends Thread {
                 if (line[0].equals("GET"))
                     {
                         try{
-                                String path ="/HW03/Resources/"+ line[1];  // 'Resources' could be a separate folder or just store everything in HW03   
+                                String path ="/HW03/"+ line[1];  // 'Resources' could be a separate folder or just store everything in HW03   
                                 BufferedReader br = new BufferedReader(new FileReader(path));
                                 InetAddress ip;
                             

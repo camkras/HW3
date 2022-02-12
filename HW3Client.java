@@ -55,32 +55,43 @@ public class HW3Client {
       
          System.out.println("Please input the HTTP method type: ");
          HTTPRequest[0] = scan.nextLine();
+         System.out.println(HTTPRequest[0]);
          //socketOut.println(methodType);
          
          System.out.println("Please input the name of the htm file: ");
          HTTPRequest[1] = scan.nextLine();
+         System.out.println(HTTPRequest[1]);
          //socketOut.println(htmFile);
          
          
          System.out.println("Please input the HTTP version: ");
          HTTPRequest[2] = scan.nextLine();
          //socketOut.println(HTTPVersion);
-         
+         System.out.println(HTTPRequest[2]);
          
          System.out.println("Please input the User agent: ");
          HTTPRequest[3] = scan.nextLine();
+         System.out.println(HTTPRequest[3]);
          //socketOut.println(userAgent);
         
         //for (int i = 0; i < HTTPRequest.length; i++) {
           //    System.out.print(HTTPRequest[i] + ", ");
 
          //send request header
-          socketOut.println(HTTPRequest[0]+"\r\n"+ HTTPRequest[1]+"\r\n"+HTTPRequest[2]+"\r\n"+hostAddr+"/r/n"+HTTPRequest[3]+"/r/n") ;
+          socketOut.println(HTTPRequest[0]+"\r\n"+ HTTPRequest[1]+"\r\n"+HTTPRequest[2]+"\r\n"+hostAddr+"\r\n"+HTTPRequest[3]+"\r\n") ;
   
          
+         // get response header
+
+
+
+
          while ((HTTPResponse = socketIn.readLine()) != null) {
          //print header sepratting lines by \r\n
-         //read end of header as as empty line
+                  // I think the server actually handles the printing here.
+         
+                  //read end of header as as empty line
+
          //save htm file
          //end read with 4 empty lines (set null after)
          }

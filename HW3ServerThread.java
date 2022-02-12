@@ -29,21 +29,20 @@ public class HW3ServerThread extends Thread {
             while ((HTTPRequest = cSocketIn.readLine()) != null) {
                 System.out.println("HTTP REQUEST LINE:");
                 System.out.println(HTTPRequest);
-                String[] line = HTTPRequest.split(" "); //parse by space
-                System.out.println(" Print LINE ELEMENTS:");
+                String[] line = HTTPRequest.split("\\+s"); //parse by space
+                System.out.println("Print LINE ELEMENTS:");
                 for (int i =0;i<line.length;i++)
                 {
                     System.out.println(line[i]);
                 }
-
+                String version = line[2];
                 if (line[0].equals("GET"))
                     {
+                        
                         try{
                                 String path ="/HW03/"+ line[1];  // 'Resources' could be a separate folder or just store everything in HW03   
                                 BufferedReader br = new BufferedReader(new FileReader(path));
-                                String hostLine = cSocketIn.readLine();
-                                line = hostLine.split(" ");
-                                String hostName = line[1];
+                                
                                 //Construct Response Message
                                 // Format: 
                                 /*          Response Header:
@@ -53,9 +52,19 @@ public class HW3ServerThread extends Thread {
                                 *blank line*
                                 */
 
-                                String responseHeader = "     Response Header \r\n" + line[2] + "200 Okay \r\n"+"Date: "+
-                                date.toString()+"\r\n"+"Server: " + hostName +"\r\n"; 
-                                cSocketOut.println(responseHeader);
+                                String hostLine = cSocketIn.readLine();
+                                line = hostLine.split(" ");
+                                String hostName = line[1];
+                                String[] rHeaderLines = new String[4];
+                                rHeaderLines[0] = (version + "200 Okay"+"\r\n");
+                                rHeaderLines[1] = ("Date:" +date.toString()+"\r\n");
+                                rHeaderLines[2] = ("Server: " + hostName)+"\r\n";
+                                rHeaderLines[3] = ("")+"\r\n";
+                                for(int i = 0; i < rHeaderLines.length; i++)
+                                {
+                                    cSocketOut.println(rHeaderLines[i]);
+                                }
+
                                 
                         
                                 // Send .htm file
@@ -63,14 +72,22 @@ public class HW3ServerThread extends Thread {
                                 {
                                     cSocketOut.write(br.readLine());
                                 }
+                                br.close();
                              }
-                        catch (IOException e)
+                        catch (FileNotFoundException e)
                             {
                                 String hostLine = cSocketIn.readLine();
                                 line = hostLine.split(" ");
                                 String hostName = line[1];
-                                String responseHeader = "     Response Header \r\n" + line[2] + "404 Not Found \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
-                                cSocketOut.println(responseHeader);
+                                String[] rHeaderLines = new String[4];
+                                rHeaderLines[0] = (version + "404 Not Found"+"\r\n");
+                                rHeaderLines[1] = ("Date:" +date.toString()+"\r\n");
+                                rHeaderLines[2] = ("Server: " + hostName)+"\r\n";
+                                rHeaderLines[3] = ("")+"\r\n";
+                                for(int i = 0; i < rHeaderLines.length; i++)
+                                {
+                                    cSocketOut.println(rHeaderLines[i]);
+                                }
                              }  
                     }
                 else
@@ -78,11 +95,19 @@ public class HW3ServerThread extends Thread {
                         String hostLine = cSocketIn.readLine();
                         line = hostLine.split(" ");
                         String hostName = line[1];
-                        String responseHeader = "     Response Header \r\n" + line[2] + "400 Bad Request \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
-                        cSocketOut.println(responseHeader);
+                        String[] rHeaderLines = new String[4];
+                        rHeaderLines[0] = (version + "400 Bad Request"+"\r\n");
+                        rHeaderLines[1] = ("Date:" +date.toString()+"\r\n");
+                        rHeaderLines[2] = ("Server: " + hostName)+"\r\n";
+                        rHeaderLines[3] = ("")+"\r\n";
+                        for(int i = 0; i < rHeaderLines.length; i++)
+                        {
+                            cSocketOut.println(rHeaderLines[i]);
+                        }
                     }
 
             }
+            
             cSocketOut.close();
             cSocketIn.close();
             clientTCPSocket.close();

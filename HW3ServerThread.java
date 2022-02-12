@@ -24,45 +24,28 @@ public class HW3ServerThread extends Thread {
 
         try {
             PrintWriter cSocketOut = new PrintWriter(clientTCPSocket.getOutputStream(), true);
-            //BufferedReader cSocketIn = new BufferedReader(new InputStreamReader(clientTCPSocket.getInputStream()));
-            Scanner cSocketIn = new Scanner(new InputStreamReader(clientTCPSocket.getInputStream()));
-            String HTTPRequest = cSocketIn.next();
+            BufferedReader cSocketIn = new BufferedReader(new InputStreamReader(clientTCPSocket.getInputStream()));
             
+        
+            String HTTPRequest;
             //read request from client            
-            //while ((HTTPRequest = cSocketIn.next()) != null) {
-                System.out.println("HTTP REQUEST:");
+            while ((HTTPRequest = cSocketIn.readLine()) != null) {
+                System.out.println("HTTP REQUEST LINE:");
                 System.out.println(HTTPRequest);
-                //The client request can be combined into a single string, and then parsed.
-                String[] requestLines = HTTPRequest.split("\r\n"); // parse by \r\n
-                String[] line = requestLines[0].split(" "); //parse by space
+                String[] line = HTTPRequest.split(" "); //parse by space
                 System.out.println(" Print LINE ELEMENTS:");
                 for (int i =0;i<line.length;i++)
                 {
                     System.out.println(line[i]);
                 }
-
-                //for (int i = 0; i < line.length; i++) {
-                //System.out.print(line[i] + ", ");
-                //Uncomment above to see if request if received and parsed
-          
                 if (line[0].equals("GET"))
                     {
                         try{
                                 String path ="/HW03/"+ line[1];  // 'Resources' could be a separate folder or just store everything in HW03   
                                 BufferedReader br = new BufferedReader(new FileReader(path));
-                                InetAddress ip;
-                            
-                                // Get hostName for response header
-                                String hostName = null;
-
-                                try {
-                                    ip = InetAddress.getLocalHost();
-                                    hostName = ip.getHostName();
-                                } catch (UnknownHostException e) {
-                                    e.printStackTrace();
-                                }
-                                
-                                
+                                String hostLine = cSocketIn.readLine();
+                                line = hostLine.split(" ");
+                                String hostName = line[1];
                                 //Construct Response Message
                                 // Format: 
                                 /*          Response Header:
@@ -85,75 +68,33 @@ public class HW3ServerThread extends Thread {
                              }
                         catch (IOException e)
                             {
-                                InetAddress ip;
-                                String hostName = null;
-                                try {
-                                    ip = InetAddress.getLocalHost();
-                                    hostName = ip.getHostName();
-                                } catch (UnknownHostException f) {
-                                    f.printStackTrace();
-                                }
+                                String hostLine = cSocketIn.readLine();
+                                line = hostLine.split(" ");
+                                String hostName = line[1];
                                 String responseHeader = "     Response Header \r\n" + line[2] + "404 Not Found \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
                                 cSocketOut.println(responseHeader);
                              }  
                     }
                 else
                     {
-                        InetAddress ip;
-                        String hostName = null;
-                        try {
-                            ip = InetAddress.getLocalHost();
-                            hostName = ip.getHostName();
-                        } catch (UnknownHostException f) {
-                            f.printStackTrace();
-                        }
+                        String hostLine = cSocketIn.readLine();
+                        line = hostLine.split(" ");
+                        String hostName = line[1];
                         String responseHeader = "     Response Header \r\n" + line[2] + "400 Bad Request \r\n"+"Date: "+date.toString()+"\r\n"+"Server: " + hostName +"\r\n";
                         cSocketOut.println(responseHeader);
                     }
 
+            }
+            cSocketOut.close();
+            cSocketIn.close();
+            clientTCPSocket.close();
+        }    
                 
-                
-                
-
-
-       /* Cameron's Method
-            BufferedReader cSocketIn = new BufferedReader(
-            new InputStreamReader(clientTCPSocket.getInputStream()));
-            String fromClient, toClient;
-                          
-            while ((fromClient = cSocketIn.readLine()) != null) {
-   String[] clientArray = fromClient.split(",");
-               
-               //this sets status code for request
-                if(!clientArray[0].equals("GET")){
-                requestCode = ("400 Bad Request");
-                }
-                if(!clientArray[1].exists()){
-                requestCode = ("404 Not Found");
-                }
-               else
-                  requestCode = ("200 OK");
-               /*
-               Here is where we will generate response
-               need 3line header and extra line then send requested file and add 4 blank lines at the end
-               or 3 line header with error code and extra line
-               
-                for (int i = 0; i < clientArray.length; i++) {
-              System.out.print(clientArray[i] + ", ");
-              
-              */
-
-                //send to client                
-                //need break/exit
-            
-                        
-           cSocketOut.close();
-           cSocketIn.close();
-           clientTCPSocket.close();
-       // }
-        }
+        
         catch (IOException e) {
            e.printStackTrace();
        }
-    } 
     }
+}
+    
+    

@@ -80,7 +80,7 @@ public class HW3ServerThread extends Thread {
             if(requestType.equals("GET"))
             {
                 try{
-                    String fullPath ="HW03"+ path;
+                    String fullPath ="/" + path;
                     BufferedReader br = new BufferedReader(new FileReader(fullPath));
                     String[] response =responseHeader(requestType, host, version);
                     for (int i = 0; i <=4; i++)
@@ -104,7 +104,7 @@ public class HW3ServerThread extends Thread {
                         cSocketOut.println(response[i]);
                         
                     }
-                    br.close();
+                    cSocketOut.close();
                 }
 
 
@@ -119,7 +119,7 @@ public class HW3ServerThread extends Thread {
                     cSocketOut.println(response[i]);
                     
                 }
-                br.close();
+                cSocketOut.close();
             }
 
             

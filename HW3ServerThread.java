@@ -22,11 +22,12 @@ public class HW3ServerThread extends Thread {
     public String[] responseHeader(String requestType, String host, String version)throws IOException{
         
         Date date = new Date(); 
-        String[] response = new String[4];
+        String[] response = new String[5];
         response[0] ="  Response Header \r\n";
         response[1] = version + " " +requestType+ "\r\n"; 
         response[2] = "Date: " +date.toString()+ "\r\n";
-        response[3] = "Server: " + host+ "\r\n"; 
+        response[3] = "Server: " + host+ "\r\n";
+        response[4] = "\r\n"; 
         return response;
     }
 
@@ -44,6 +45,7 @@ public class HW3ServerThread extends Thread {
                 HTTPRequest = cSocketIn.readLine();
                 lines.add(HTTPRequest);
                 System.out.println("Line Received: " +HTTPRequest);
+                cSocketOut.println(HTTPRequest);
                 count++;
             }
 
@@ -95,11 +97,14 @@ public class HW3ServerThread extends Thread {
                 catch(FileNotFoundException e)
                 {
                     System.out.println("File Not Found");
+                    requestType = requestType + (" 404 File Not Found");
                     String[] response =responseHeader(requestType, host, version);
                     for (int i = 0; i <=4; i++)
                     {
                         cSocketOut.println(response[i]);
+                        
                     }
+                    br.close();
                 }
 
 
@@ -107,11 +112,14 @@ public class HW3ServerThread extends Thread {
             }
             else // 400 bad request
             {
+                requestType = requestType + (" 400 bad request");
                 String[] response = responseHeader(requestType, host, version);
                 for (int i = 0; i <=4; i++)
                 {
                     cSocketOut.println(response[i]);
+                    
                 }
+                br.close();
             }
 
             
@@ -129,5 +137,3 @@ public class HW3ServerThread extends Thread {
        
     }
 }
-    
-    

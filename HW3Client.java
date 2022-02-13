@@ -20,10 +20,11 @@ public class HW3Client {
 
    public static void main(String[] args) throws IOException {
    
-   String fromUser = "";
-   String[] HTTPRequest = new String[4];
-   String HTTPResponse;
-
+      String fromUser = "";
+      String[] HTTPRequest = new String[4];
+      String HTTPResponse;
+      int counter = 0;
+   
       //Step 1, capture target address/ip
       System.out.println("Please input host address or IP (ie. cs3700a.msudenver.edu) ");
       Scanner scan = new Scanner(System.in);
@@ -33,14 +34,14 @@ public class HW3Client {
       BufferedReader socketIn = null;
                     
       try {
-         tcpSocket = new Socket(hostAddr, 5240);   // 5180 I my assigned port for server
+         tcpSocket = new Socket(hostAddr, 5180);   // 5180 I my assigned port for server
          long start_time = System.currentTimeMillis();
          socketOut = new PrintWriter(tcpSocket.getOutputStream(), true);
          socketIn = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
          long end_time = System.currentTimeMillis();
          long difference = end_time-start_time;
          System.out.println("RTT of Socket creation = " + difference + "ms"); //RTT time of connection around creating socket object
-
+      
       } catch (UnknownHostException e) {
          System.err.println("Don't know about host: " + hostAddr);
          System.exit(1);
@@ -71,18 +72,18 @@ public class HW3Client {
          //socketOut.println(userAgent);
         //for (int i = 0; i < HTTPRequest.length; i++) {
           //    System.out.print(HTTPRequest[i] + ", ");
-
+      
          //send request header
          String[] requestHeaderLines = new String[4];
-         requestHeaderLines[0] = (HTTPRequest[0]+" /"+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]);
+         requestHeaderLines[0] = (HTTPRequest[0]+" "+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]);
          requestHeaderLines[1] = ("Host: "+hostAddr);
          requestHeaderLines[2] =("User-Agent: "+HTTPRequest[3]);
          requestHeaderLines[3] =("");
-          for (int i = 0; i < requestHeaderLines.length; i++)
-          {
-             socketOut.println(requestHeaderLines[i]);
-             System.out.println("Sent Line " +i+":" + requestHeaderLines[i]);
-          }
+         for (int i = 0; i < requestHeaderLines.length; i++)
+         {
+            socketOut.println(requestHeaderLines[i]);
+            System.out.println("Sent Line " +i+":" + requestHeaderLines[i]);
+         }
           //end while loop on server side by sending null
           //String nullResponse = null;
           //socketOut.print(nullResponse);   
@@ -90,18 +91,40 @@ public class HW3Client {
          // get response header
          BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
          String fromServer;
-         while ((fromServer = socketIn.readLine()) != null) {
-               System.out.println(fromServer);
-               }            
-
-
-
+         
+            //while ((fromServer = socketIn.readLine()) != "\r\n"){
+               
+            //}
+            while ((fromServer = socketIn.readLine()) != null) {
+            System.out.println(fromServer);
+               FileWriter fileWriter = new FileWriter("serverFile.htm");
+               PrintWriter printWriter = new PrintWriter(fileWriter);
+               printWriter.print(fromServer = socketIn.readLine());
+               printWriter.close();
+            }
+         
+               
+                    
+      
+      
+      
+         System.out.println("\nWould you like to continue? y/n");
+         fromUser = scan.nextLine();
+         if (!fromUser.equals("y")) {
+            socketOut.close();
+            socketIn.close();
+            sysIn.close();
+            tcpSocket.close();   
+            //break;
+            cont = false;
+         
+         
          //while ((HTTPResponse = socketIn.readLine()) != null) {
          //print header sepratting lines by \r\n
                   // I think the server actually handles the printing here.
          
                   //read end of header as as empty line
-
+         
          //save htm file
          //end read with 4 empty lines (set null after)
          }
@@ -117,15 +140,6 @@ public class HW3Client {
             break;
          }
       */
-      System.out.println("\nWould you like to continue? y/n");
-      fromUser = scan.nextLine();
-         if (!fromUser.equals("y")) {
-            /* socketOut.close();
-            socketIn.close();
-            sysIn.close();
-            tcpSocket.close();   */
-            //break;
-            cont = false;
-         }
       }
-      }
+   }
+}

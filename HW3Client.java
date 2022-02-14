@@ -76,7 +76,7 @@ public class HW3Client {
          //send request header
          String[] requestHeaderLines = new String[4];
          requestHeaderLines[0] = (HTTPRequest[0]+" "+ HTTPRequest[1]+" HTTP/"+HTTPRequest[2]);
-         requestHeaderLines[1] = ("Host: "+hostAddr);
+         requestHeaderLines[1] = ("Host: /"+hostAddr);
          requestHeaderLines[2] =("User-Agent: "+HTTPRequest[3]);
          requestHeaderLines[3] =("");
          for (int i = 0; i < requestHeaderLines.length; i++)
@@ -97,7 +97,7 @@ public class HW3Client {
             //}
             while ((fromServer = socketIn.readLine()) != null) {
             System.out.println(fromServer);
-               FileWriter fileWriter = new FileWriter("serverFile.htm");
+               FileWriter fileWriter = new FileWriter(hostAddr); //change to entered name
                PrintWriter printWriter = new PrintWriter(fileWriter);
                printWriter.print(fromServer = socketIn.readLine());
                printWriter.close();
@@ -106,7 +106,7 @@ public class HW3Client {
                
                     
       
-      
+      // This is still kinda broke from the server side i think, it wont continue
       
          System.out.println("\nWould you like to continue? y/n");
          fromUser = scan.nextLine();

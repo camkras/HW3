@@ -95,19 +95,12 @@ public class HW3Client {
             //while ((fromServer = socketIn.readLine()) != "\r\n"){
                
             //}
-            int count= 0;
-            FileWriter fileWriter = new FileWriter(HTTPRequest[1]); //change to entered name
-            PrintWriter printWriter = new PrintWriter(fileWriter);
             while ((fromServer = socketIn.readLine()) != null) {
-               System.out.println(fromServer);
+            System.out.println(fromServer);
+               FileWriter fileWriter = new FileWriter(HTTPRequest[1]); //change to entered name
+               PrintWriter printWriter = new PrintWriter(fileWriter);
                printWriter.print(fromServer = socketIn.readLine());
                //printWriter.close();
-               if (fromServer.equals("")){
-                  count++;
-               }
-               if (count ==4){
-                  break;
-               }
             }
          
                

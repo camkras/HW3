@@ -34,7 +34,7 @@ public class HW3Client {
       BufferedReader socketIn = null;
                     
       try {
-         tcpSocket = new Socket(hostAddr, 5180);   // 5180 I my assigned port for server
+         tcpSocket = new Socket(hostAddr, 5240);   // 5180 I my assigned port for server
          long start_time = System.currentTimeMillis();
          socketOut = new PrintWriter(tcpSocket.getOutputStream(), true);
          socketIn = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
@@ -97,10 +97,10 @@ public class HW3Client {
             //}
             while ((fromServer = socketIn.readLine()) != null) {
             System.out.println(fromServer);
-               FileWriter fileWriter = new FileWriter(hostAddr); //change to entered name
+               FileWriter fileWriter = new FileWriter(HTTPRequest[1]); //change to entered name
                PrintWriter printWriter = new PrintWriter(fileWriter);
                printWriter.print(fromServer = socketIn.readLine());
-               printWriter.close();
+               //printWriter.close();
             }
          
                

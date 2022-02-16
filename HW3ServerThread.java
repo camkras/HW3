@@ -32,6 +32,8 @@ public class HW3ServerThread extends Thread {
     }
 
     public void run() {
+        while(clientTCPSocket.isConnected())
+        {
         Date date = new Date();
         try {
             PrintWriter cSocketOut = new PrintWriter(clientTCPSocket.getOutputStream(), true);
@@ -80,7 +82,7 @@ public class HW3ServerThread extends Thread {
             if(requestType.equals("GET"))
             {
                 try{
-                    String fullPath ="/" + path;
+                    String fullPath =  path;
                     BufferedReader br = new BufferedReader(new FileReader(fullPath));
                     String[] response =responseHeader(requestType, host, version);
                     for (int i = 0; i <=4; i++)
@@ -134,6 +136,6 @@ public class HW3ServerThread extends Thread {
            e.printStackTrace();
        }
 
-       
+    }       
     }
 }

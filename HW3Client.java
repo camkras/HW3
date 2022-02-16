@@ -34,7 +34,7 @@ public class HW3Client {
       BufferedReader socketIn = null;
                     
       try {
-         tcpSocket = new Socket(hostAddr, 5180);   // 5180 I my assigned port for server
+         tcpSocket = new Socket(hostAddr, 5240);   // 5180 I my assigned port for server
          long start_time = System.currentTimeMillis();
          socketOut = new PrintWriter(tcpSocket.getOutputStream(), true);
          socketIn = new BufferedReader(new InputStreamReader(tcpSocket.getInputStream()));
@@ -82,34 +82,49 @@ public class HW3Client {
          for (int i = 0; i < requestHeaderLines.length; i++)
          {
             socketOut.println(requestHeaderLines[i]);
-            System.out.println("Sent Line " +i+":" + requestHeaderLines[i]);
+            //System.out.println("Sent Line " +i+":" + requestHeaderLines[i]);
          }
           //end while loop on server side by sending null
           //String nullResponse = null;
           //socketOut.print(nullResponse);   
           
          // get response header
-         BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
+         int count1=0;
          String fromServer;
-         /* this is the problem spot for save and print vs read need to have it use empty lines and counter
-         while ((fromServer = socketIn.readLine()) != null) {
-            if ((fromServer = socketIn.readLine()) != ""){
-               System.out.println(fromServer);
-            }
-            
-            FileWriter fileWriter = new FileWriter(HTTPRequest[1]); //change to entered name
-            PrintWriter printWriter = new PrintWriter(fileWriter, true);
-            int emptyCounter;
-            insert counter method for empty lines here (maybe counter test print too)
-            
-            if ((emptyCounter < 4) {
-
-            //System.out.println(fromServer);
-            printWriter.println(fromServer);
-            printWriter.close();
-            }
-            */
+         while(count1 <5)
+         {
+            fromServer=socketIn.readLine();
+            System.out.println(fromServer); 
+            count1++;
+           // System.out.println("count: " + count1);
+         }
+         //System.out.println("response header loop done");
          
+         
+         //this is the problem spot for save and print vs read need to have it use empty lines and counter
+      
+         FileWriter fileWriter = new FileWriter(HTTPRequest[1]);              
+         PrintWriter printWriter = new PrintWriter(fileWriter, true);
+         int count2=0;
+         while ((fromServer = socketIn.readLine()) != null && count2 <= 4) {
+
+            if (!fromServer.equals("")){
+               System.out.println(fromServer);
+               printWriter.println(fromServer);
+            }
+            else{
+               count2++;
+              // System.out.println("Empty Lines count: " +count2);
+            }
+            //insert counter method for empty lines here (maybe counter test print too)
+            
+            if ((count2 == 4)) {
+               
+               //System.out.println("File finished (4 empty lines) ");
+               break;
+            }
+         }
+         printWriter.close();
                
                     
       
@@ -120,7 +135,7 @@ public class HW3Client {
          if (!fromUser.equals("y")) {
             socketOut.close();
             socketIn.close();
-            sysIn.close();
+            //sysIn.close();
             tcpSocket.close();   
             //break;
             cont = false;

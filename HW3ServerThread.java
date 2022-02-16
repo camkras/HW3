@@ -23,16 +23,16 @@ public class HW3ServerThread extends Thread {
         
         Date date = new Date(); 
         String[] response = new String[5];
-        response[0] ="  Response Header \r\n";
-        response[1] = version + " " +requestType+ "\r\n"; 
-        response[2] = "Date: " +date.toString()+ "\r\n";
-        response[3] = "Server: " + host+ "\r\n";
-        response[4] = "\r\n"; 
+        response[0] ="  Response Header";
+        response[1] = version + " " +requestType; 
+        response[2] = "Date: " +date.toString();
+        response[3] = "Server: " + host; 
+        response[4] = "";
         return response;
     }
 
     public void run() {
-        while(clientTCPSocket.isConnected())
+        do
         {
         Date date = new Date();
         try {
@@ -47,11 +47,9 @@ public class HW3ServerThread extends Thread {
                 HTTPRequest = cSocketIn.readLine();
                 lines.add(HTTPRequest);
                 System.out.println("Line Received: " +HTTPRequest);
-                cSocketOut.println(HTTPRequest);
+                //cSocketOut.println(HTTPRequest);
                 count++;
             }
-
-            //hangs here until client close???????
 
             System.out.println("Full HTTP Request Recieved...");  
 
@@ -63,13 +61,13 @@ public class HW3ServerThread extends Thread {
 
             // Line 1: (Request type, path, version)
             String line1[] = lines.get(0).split("\\s+");
-            System.out.println("Print file line:" +lines.get(0));
+            //System.out.println("Print file line:" +lines.get(0));
             requestType = line1[0];
             path = line1[1];
             version = line1[2];
             // Line 2: (Host)
             String line2[] = lines.get(1).split("\\s+");
-            System.out.println("Print hostline:" +lines.get(1));
+            //System.out.println("Print hostline:" +lines.get(1));
             host = line2[1];
             // Line 3: (User agent)
             String line3[] = lines.get(2).split("\\s+");
@@ -84,7 +82,7 @@ public class HW3ServerThread extends Thread {
                 try{
                     String fullPath =  path;
                     BufferedReader br = new BufferedReader(new FileReader(fullPath));
-                    String[] response =responseHeader(requestType, host, version);
+                    String[] response = responseHeader(requestType, host, version);
                     for (int i = 0; i <=4; i++)
                     {
                         cSocketOut.println(response[i]);
@@ -135,7 +133,8 @@ public class HW3ServerThread extends Thread {
         catch (IOException e) {
            e.printStackTrace();
        }
-
-    }       
+    }  
+    while(!clientTCPSocket.isClosed());
     }
+    
 }

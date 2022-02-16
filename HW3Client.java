@@ -91,20 +91,24 @@ public class HW3Client {
          // get response header
          BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
          String fromServer;
-         
-            while ((fromServer = socketIn.readLine()) != "\r\n"){
+         /* this is the problem spot for save and print vs read need to have it use empty lines and counter
+         while ((fromServer = socketIn.readLine()) != null) {
+            if ((fromServer = socketIn.readLine()) != ""){
                System.out.println(fromServer);
             }
             
             FileWriter fileWriter = new FileWriter(HTTPRequest[1]); //change to entered name
             PrintWriter printWriter = new PrintWriter(fileWriter, true);
-
-            while ((fromServer = socketIn.readLine()) != null) {
+            int emptyCounter;
+            insert counter method for empty lines here (maybe counter test print too)
+            
+            if ((emptyCounter < 4) {
 
             //System.out.println(fromServer);
             printWriter.println(fromServer);
             printWriter.close();
             }
+            */
          
                
                     

@@ -12,10 +12,6 @@ import java.util.*;
 
 import javax.swing.text.html.CSS;
 
-//Things commented out are mostly tcp and connection, currently instead of connecting this code just takes
-//a request adress and then collects the input. it then prints the input as a string parased by commas
-//change print to send then process response
-
 public class HW3Client {
 
    public static void main(String[] args) throws IOException {
@@ -24,8 +20,10 @@ public class HW3Client {
       String[] HTTPRequest = new String[4];
       String HTTPResponse;
       int counter = 0;
+      int consecCount = 0;
+      int savedLines = 0;
    
-      //Step 1, capture target address/ip
+      //Capture target address/ip
       System.out.println("Please input host address or IP (ie. cs3700a.msudenver.edu) ");
       Scanner scan = new Scanner(System.in);
       String hostAddr = scan.nextLine();
@@ -82,67 +80,54 @@ public class HW3Client {
          for (int i = 0; i < requestHeaderLines.length; i++)
          {
             socketOut.println(requestHeaderLines[i]);
-            System.out.println("Sent Line " +i+":" + requestHeaderLines[i]);
+            //System.out.println("Sent Line " +i+":" + requestHeaderLines[i]);
          }
-          //end while loop on server side by sending null
-          //String nullResponse = null;
-          //socketOut.print(nullResponse);   
-          
+                   
          // get response header
-         BufferedReader sysIn = new BufferedReader(new InputStreamReader(System.in));
+         int count1=0;
          String fromServer;
+         while(count1 <5)
+         {
+            fromServer=socketIn.readLine();
+            System.out.println(fromServer); 
+            count1++;
+           // System.out.println("count: " + count1);
+         }
+         //System.out.println("response header loop done");    
          
-            while ((fromServer = socketIn.readLine()) != "\r\n"){
-               System.out.println(fromServer);
+         while ((fromServer = socketIn.readLine()) != null) {
+            FileWriter fileWriter = new FileWriter(HTTPRequest[1]);              
+            PrintWriter printWriter = new PrintWriter(fileWriter, true);             
+                       
+            if (fromServer.equals("")){
+               consecCount++;
+               printWriter.println(fromServer);
+               //System.out.println(fromServer);
+               savedLines++;
             }
+            if (!fromServer.equals("")){ 
+               consecCount=0;
+               printWriter.println(fromServer);
+               //System.out.println(fromServer);
+               savedLines++;
+            }                           
+            //System.out.println("consecutive blank lines: " + consecCount);
             
-            FileWriter fileWriter = new FileWriter(HTTPRequest[1]); //change to entered name
-            PrintWriter printWriter = new PrintWriter(fileWriter, true);
-
-            while ((fromServer = socketIn.readLine()) != null) {
-
-            //System.out.println(fromServer);
-            printWriter.println(fromServer);
-            printWriter.close();
-            }
-         
-               
-                    
-      
-      // This is still kinda broke from the server side i think, it wont continue
+            if (consecCount == 4){            
+               //System.out.println("File finished (4 empty lines) ");
+               System.out.println("Saved Lines: " + savedLines + " to /" + HTTPRequest[1]);
+               printWriter.close();
+            }                
+         }                        
       
          System.out.println("\nWould you like to continue? y/n");
          fromUser = scan.nextLine();
          if (!fromUser.equals("y")) {
             socketOut.close();
             socketIn.close();
-            sysIn.close();
             tcpSocket.close();   
-            //break;
-            cont = false;
-         
-         
-         //while ((HTTPResponse = socketIn.readLine()) != null) {
-         //print header sepratting lines by \r\n
-                  // I think the server actually handles the printing here.
-         
-                  //read end of header as as empty line
-         
-         //save htm file
-         //end read with 4 empty lines (set null after)
-         }
-         
-         /*
-                             
-         if ((fromServer = socketIn.readLine()) != null)
-         {
-            System.out.println("Server: " + fromServer);
-         }
-         else {
-            System.out.println("Server replies nothing!");
-            break;
-         }
-      */
+            cont = false;                 
+         }       
       }
    }
 }
